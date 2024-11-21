@@ -1,0 +1,21 @@
+# monitoring/controllers/kube-prometheus-stack/node-exporter-patch.yaml
+apiVersion: apps/v1
+kind: DaemonSet
+metadata:
+  name: kube-prometheus-stack-prometheus-node-exporter
+  namespace: monitoring
+spec:
+  selector:
+    matchLabels:
+      app: kube-prometheus-stack-prometheus-node-exporter
+  template:
+    metadata:
+      labels:
+        app: kube-prometheus-stack-prometheus-node-exporter
+    spec:
+      containers:
+        - name: prometheus-node-exporter
+          volumeMounts:
+            - name: smountPropogation
+              mountPath: /spec/template/spec/containers/0/volumeMounts/2/mountPropagation
+              mountPropagation: None
